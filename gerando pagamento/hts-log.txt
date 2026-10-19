@@ -1,0 +1,33 @@
+HTTrack3.50-5 launched on Mon, 19 Oct 2026 18:15:01 at https://encomenda-entregar.site/gerando-pagamento/index.html?nome=Murilo%2520Yamashita%2520Tomitan&cpf=06372913950&data_atual=19%2F10%2F2026&name=Murilo+Yamashita+Tomitan&document=06372913950 +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qYC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2%f#f -F "Mozilla/5.0 (compatible; HTTrack; +https://www.httrack.com/)" -%F "<!-- Mirrored from {url} by HTTrack Website Copier/3.x [XR&CO], {date} -->" -%l "pt_BR, en, *" -Y https://encomenda-entregar.site/gerando-pagamento/index.html?nome=Murilo%2520Yamashita%2520Tomitan&cpf=06372913950&data_atual=19%2F10%2F2026&name=Murilo+Yamashita+Tomitan&document=06372913950 -O1 "C:\Meus Sites\gerando pagamento" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+18:15:04	Warning: 	File not parsed, looks like binary: https://pay.sunize.com.br/robots.txt
+18:15:40	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/gerando-pagamento/js/signals/config/ (from https://connect.facebook.net/en_US/fbevents.js)
+18:15:40	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/gerando-pagamento/js/signals/plugins/ (from https://connect.facebook.net/en_US/fbevents.js)
+18:15:40	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/signals/iwl.js (from https://connect.facebook.net/en_US/fbevents.js)
+18:15:40	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/signals/iwl.js?pixel_id= (from https://connect.facebook.net/en_US/fbevents.js)
+18:15:40	Error: 	"Not Found" (404) at link https://analytics.tiktok.com/i18n/pixel/static/ (from https://analytics.tiktok.com/i18n/pixel/events.js)
+18:15:40	Warning: 	Permanent Redirect for https://pay.sunize.com.br/_next/
+18:15:40	Warning: 	File has moved from https://pay.sunize.com.br/_next/ to /_next
+18:15:41	Warning: 	Permanent Redirect for https://pay.sunize.com.br/pix/
+18:15:41	Warning: 	File has moved from https://pay.sunize.com.br/pix/ to /pix
+18:15:41	Warning: 	Permanent Redirect for https://pay.sunize.com.br/order/
+18:15:41	Warning: 	File has moved from https://pay.sunize.com.br/order/ to /order
+18:15:42	Warning: 	Permanent Redirect for https://pay.sunize.com.br/json/
+18:15:42	Warning: 	File has moved from https://pay.sunize.com.br/json/ to /json
+18:15:42	Warning: 	Permanent Redirect for https://pay.sunize.com.br/checkout/session/
+18:15:42	Warning: 	File has moved from https://pay.sunize.com.br/checkout/session/ to /checkout/session
+18:15:42	Warning: 	Permanent Redirect for https://pay.sunize.com.br/checkout/session/ping/
+18:15:42	Warning: 	File has moved from https://pay.sunize.com.br/checkout/session/ping/ to /checkout/session/ping
+18:15:43	Error: 	"Not Found" (404) at link https://pay.sunize.com.br/_next-live/feedback/feedback.html?dpl=dpl_GCk6kAJ8vSnfhPSbWtPP5ZLxVh2A (from https://vercel.live/_next-live/feedback/feedback.js)
+18:15:43	Error: 	"Not Found" (404) at link https://pay.sunize.com.br/checkout/session (from https://pay.sunize.com.br/checkout/session/)
+18:15:43	Error: 	"Not Found" (404) at link https://pay.sunize.com.br/checkout/session/ping (from https://pay.sunize.com.br/checkout/session/ping/)
+
+HTTrack Website Copier/3.50-5 mirror complete in 42 seconds : 141 links scanned, 124 files written (4350736 bytes overall) [2861513 bytes received at 68131 bytes/sec], 2383653 bytes transferred using HTTP compression in 60 files, ratio 29%, 1.0 requests per connection
+(8 errors, 13 warnings, 0 messages)
+(Some links above the start directory were not mirrored. Pass -B (--can-go-up-and-down) to mirror them.)
