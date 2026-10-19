@@ -1,0 +1,6 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+www.greatpages.com.br	TRUE	/templates	FALSE	1999999999	gpages_user	%7B%22ip%22%3A%22143.137.250.173%22%2C%22agent%22%3A%22Mozilla%2F5.0%20(compatible%3B%20HTTrack%3B%20%2Bhttps%3A%2F%2Fwww.httrack.com%2F)%22%2C%22country%22%3A%22BR%22%2C%22state%22%3A%22PR%22%2C%22city%22%3A%22Arapongas%22%2C%22eId%22%3A%22GPages.cJam1792429082973%22%2C%22fbp%22%3A%22%22%2C%22fbc%22%3A%22%22%7D
+www.greatpages.com.br	TRUE	/planos	FALSE	1999999999	gpages_user	%7B%22ip%22%3A%22143.137.250.173%22%2C%22agent%22%3A%22Mozilla%2F5.0%20(compatible%3B%20HTTrack%3B%20%2Bhttps%3A%2F%2Fwww.httrack.com%2F)%22%2C%22country%22%3A%22BR%22%2C%22state%22%3A%22PR%22%2C%22city%22%3A%22Arapongas%22%2C%22eId%22%3A%22GPages.9ZKC1792429087336%22%2C%22fbp%22%3A%22%22%2C%22fbc%22%3A%22%22%7D
+www.greatpages.com.br	TRUE	/	FALSE	1999999999	SameSite	Lax
+
