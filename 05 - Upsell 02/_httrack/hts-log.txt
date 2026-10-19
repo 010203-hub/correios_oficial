@@ -1,0 +1,21 @@
+HTTrack3.50-5 launched on Mon, 19 Oct 2026 15:35:19 at https://encomenda-entregar.site/Oficial/upsell/02/index.html +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qYC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2%f#f -F "Mozilla/5.0 (compatible; HTTrack; +https://www.httrack.com/)" -%F "<!-- Mirrored from {url} by HTTrack Website Copier/3.x [XR&CO], {date} -->" -%l "pt_BR, en, *" -Y https://encomenda-entregar.site/Oficial/upsell/02/index.html -O1 "C:\Meus Sites\upsell2" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+15:35:23	Info: 	Note: due to https://meutudo.com.br remote robots.txt rules, links beginning with these path will be forbidden: /blog/wp-admin/, /blog/wp-includes/, /blog/wp-login.php, /blog/?s=*, /blog/busca/*, /*?s=, /*?redirect, /*?action=login, /*?action=register, /*?interim-login= (see in the options to disable this)
+15:35:23	Warning: 	Moved Permanently for https://meutudo.com.br/blog/guia-do-saque-aniversario/
+15:35:23	Warning: 	File has moved from https://meutudo.com.br/blog/guia-do-saque-aniversario/ to https://meutudo.com.br/saque-aniversario/
+15:35:25	Warning: 	Over-long header dropped for https://www.facebook.com/robots.txt
+15:35:25	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/Oficial/upsell/02/signals/config/ (from https://connect.facebook.net/en_US/fbevents.js)
+15:35:25	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/Oficial/upsell/02/signals/plugins/ (from https://connect.facebook.net/en_US/fbevents.js)
+15:35:25	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/signals/iwl.js (from https://connect.facebook.net/en_US/fbevents.js)
+15:35:25	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/signals/iwl.js?pixel_id= (from https://connect.facebook.net/en_US/fbevents.js)
+15:35:25	Error: 	"Not Found" (404) at link https://encomenda-entregar.site/Oficial/upsell/02/wa.me (from https://cdn.utmify.com.br/scripts/utms/latest.js)
+
+HTTrack Website Copier/3.50-5 mirror complete in 6 seconds : 19 links scanned, 9 files written (503978 bytes overall) [214829 bytes received at 35804 bytes/sec], 535594 bytes transferred using HTTP compression in 13 files, ratio 30%, 1.5 requests per connection
+(5 errors, 3 warnings, 1 messages)
+(Some links above the start directory were not mirrored. Pass -B (--can-go-up-and-down) to mirror them.)
